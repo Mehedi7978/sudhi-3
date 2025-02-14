@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Envelope</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin-top: 80px;
+        }
+
+        .envelope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #ff7675 50%, #ff6b6b 50%);
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            z-index: 2;
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff6b6b;
+            clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+            z-index: 1;
+        }
+
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 80%;
+            background: #fff;
+            left: 5%;
+            bottom: -100%;
+            border-radius: 4px;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: all 0.5s ease 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .scissors {
+            position: absolute;
+            width: 60px;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .scissors:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Animation when active */
+        .cut .envelope-front {
+            transform: rotateX(180deg);
+        }
+
+        .cut .letter {
+            bottom: 10%;
+        }
+
+        .cut .scissors {
+            animation: cutMotion 1s ease forwards;
+        }
+
+        @keyframes cutMotion {
+            0% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+            50% {
+                transform: translateX(30%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(-150%) rotate(90deg);
+                opacity: 0;
+            }
+        }
+
+        .message {
+            font-size: 24px;
+            color: #ff6b6b;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+      
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25667.png" alt="Scissors" class="scissors" id="scissors">
+        <div class="envelope">
+            <div class="envelope-front"></div>
+            <div class="envelope-back"></div>
+            <div class="letter">
+                <div class="message">Happy Valentines Day Babe 💌</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scissors = document.getElementById('scissors');
+        const container = document.querySelector('.container');
+
+        scissors.addEventListener('click', () => {
+            container.classList.add('cut');
+            
+            // Remove scissors after animation
+            setTimeout(() => {
+                scissors.style.display = 'none';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
